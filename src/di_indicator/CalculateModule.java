@@ -10,8 +10,9 @@ import java.util.Date;
  * @author joker
  */
 public class CalculateModule {
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final String[] DIRECTION = {"N", "NE", "E", "SE", "S", "SW", "W", "NW"};
+    public static final String COLOR[] = {"#808080", "#FF0000", "#FFFF00", "#00FF00", "#0000FF"};
     public static double flowSpeed[][] = {{16, 21, 35},{15, 22, 30},{13, 18, 25}};
     public static final double MAX_LEGAL_SPEED = 60;
     
@@ -85,28 +86,28 @@ public class CalculateModule {
      *
      * @param speed
      * @param mainDirections
-     * @return 
+     * @return
      */
-    public static String matchColor(double speed, int mainDirections)
+    public static double mapIndicator(double speed, int mainDirections)
     {
-        if(mainDirections == 0 || speed >= MAX_LEGAL_SPEED) return "#0000FF";
+        if(mainDirections == 0 || speed >= MAX_LEGAL_SPEED) return 4;
         else if(mainDirections == 1) {
-            if(speed > flowSpeed[0][2] && speed <= MAX_LEGAL_SPEED) return "#0000FF";
-            else if(speed > flowSpeed[0][1] && speed <= flowSpeed[0][2]) return "#00FF00";
-            else if(speed > flowSpeed[0][0] && speed <= flowSpeed[0][1]) return "#FFFF00";
-            else return "#FF0000";
+            if(speed > flowSpeed[0][2] && speed <= MAX_LEGAL_SPEED) return 4;
+            else if(speed > flowSpeed[0][1] && speed <= flowSpeed[0][2]) return 3;
+            else if(speed > flowSpeed[0][0] && speed <= flowSpeed[0][1]) return 2;
+            else return 1;
         } else if(mainDirections == 2 || mainDirections == 3) {
-            if(speed > flowSpeed[1][2] && speed <= MAX_LEGAL_SPEED) return "#0000FF";
-            else if(speed > flowSpeed[1][1] && speed <= flowSpeed[1][2]) return "#00FF00";
-            else if(speed > flowSpeed[1][0] && speed <= flowSpeed[1][1]) return "#FFFF00";
-            else return "#FF0000";
+            if(speed > flowSpeed[1][2] && speed <= MAX_LEGAL_SPEED) return 4;
+            else if(speed > flowSpeed[1][1] && speed <= flowSpeed[1][2]) return 3;
+            else if(speed > flowSpeed[1][0] && speed <= flowSpeed[1][1]) return 2;
+            else return 1;
         } else if(mainDirections >= 4) {
-            if(speed > flowSpeed[2][2] && speed <= MAX_LEGAL_SPEED) return "#0000FF";
-            else if(speed > flowSpeed[2][1] && speed <= flowSpeed[2][2]) return "#00FF00";
-            else if(speed > flowSpeed[2][0] && speed <= flowSpeed[2][1]) return "#FFFF00";
-            else return "#FF0000";
+            if(speed > flowSpeed[2][2] && speed <= MAX_LEGAL_SPEED) return 4;
+            else if(speed > flowSpeed[2][1] && speed <= flowSpeed[2][2]) return 3;
+            else if(speed > flowSpeed[2][0] && speed <= flowSpeed[2][1]) return 2;
+            else return 1;
         }
-        return "#808080";
+        return 0;
     }
     
     /**

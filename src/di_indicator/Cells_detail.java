@@ -14,7 +14,7 @@ import org.json.JSONObject;
  */
 public class Cells_detail {
     private int x_axis, y_axis, id_cell, marker_count, algorithm;
-    private String start_time, end_time, color, getUrl, postUrl;
+    private String start_time, end_time, color, postUrl, algorithm_detail;
     private double avg_speed, indicator;
 
     public Cells_detail()
@@ -22,13 +22,21 @@ public class Cells_detail {
         marker_count = 0;
     }
     
-    public Cells_detail(String getUrl)
-    {
-        this.getUrl = getUrl;
+    public String getAlgorithm_detail() {
+        return algorithm_detail;
+    }
+
+    public void setAlgorithm_detail(String algorithm_detail) {
+        this.algorithm_detail = algorithm_detail;
     }
     
-    public void setGetUrl(String getUrl) {
-        this.getUrl = getUrl;
+    public Cells_detail(String postUrl)
+    {
+        this.postUrl = postUrl;
+    }
+    
+    public void setGetUrl(String postUrl) {
+        this.postUrl = postUrl;
     }
     
     public void setPostUrl(String postUrl) {
@@ -83,6 +91,11 @@ public class Cells_detail {
         this.indicator = indicator;
     }
     
+    public void setMarkerCount(int marker_count) {
+        this.marker_count = marker_count;
+    }
+
+    
     /**
      * Post JSONObject array to API to save data
      *
@@ -93,11 +106,12 @@ public class Cells_detail {
     {
         StringBuilder response = new StringBuilder();
         try {
-            URL markerUrl = new URL(getUrl);
+            URL markerUrl = new URL(postUrl);
             HttpURLConnection connection = (HttpURLConnection) markerUrl.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
             connection.setRequestProperty("Accept", "application/json");
+            connection.setRequestProperty("remember_token", "4bd4a7ee4215318d72b2e3ddc4bf79f9cwBa6MaOg32gpNmmPm94LkQLJeyJrC75OfoMVpQfb5MrE62NrA8tm590l3P0");
             connection.setDoOutput(true);
             try(OutputStream outputStream = connection.getOutputStream()){
                 String data = jsonObject.toString();
@@ -110,7 +124,7 @@ public class Cells_detail {
               while ((responseLine = br.readLine()) != null) {
                   response.append(responseLine.trim());
               }
-              System.out.println(response.toString());
+              System.out.println(response.toString());//////----
           }
         } catch (IOException e) {
             System.out.println(e);
@@ -139,10 +153,21 @@ public class Cells_detail {
             cell.put("color", oneCell.color);
             cell.put("indicator", oneCell.indicator);
             cell.put("algorithm", oneCell.algorithm);
+            cell.put("algorithm_detail", oneCell.algorithm_detail);
             return cell;    
         } catch (JSONException e) {
             System.out.println(e);
         }
         return null;
+    }
+    
+    public void detail()
+    {
+        System.out.println(marker_count+" "+x_axis+" "+y_axis);
+    }
+    
+    public String getCoordinate()
+    {
+        return x_axis+" "+y_axis;
     }
 }
